@@ -1,8 +1,9 @@
 'use client';
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { FcGoogle } from 'react-icons/fc';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
@@ -120,6 +121,18 @@ const SignUp = () => {
                 className="px-5 py-1.5 text-sm bg-primary-orange rounded-full text-white"
               >
                 Sign up
+              </button>
+            </div>
+            <div>
+              <button
+                type="button"
+                className="px-5 py-3.5 text-sm bg-black rounded-full text-white flex gap-2 items-center "
+                onClick={signIn}
+              >
+                <span className="text-xl">
+                  <FcGoogle />
+                </span>
+                Sign up with google
               </button>
             </div>
           </form>
