@@ -37,7 +37,7 @@ const CreatePrompt = () => {
     }
   };
 
-  return (
+  return session?.user?.id ? (
     <Form
       type="Create"
       post={post}
@@ -45,6 +45,12 @@ const CreatePrompt = () => {
       submitting={submitting}
       handleSubmit={createPrompt}
     />
+  ) : (
+    <h1 className="head_text text-left">
+      <span className="blue_gradient">
+        Sign in first to create a prompt
+      </span>
+    </h1>
   );
 };
 
