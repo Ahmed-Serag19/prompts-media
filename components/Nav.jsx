@@ -61,14 +61,14 @@ const Nav = () => {
           </div>
         ) : (
           <>
-            {/* <button
+            <button
               type="button"
               className="black_btn"
               onClick={signIn}
             >
               Sign in
-            </button> */}
-            {providers &&
+            </button>
+            {/* {providers &&
               Object.values(providers).map((provider) => (
                 <button
                   type="button"
@@ -78,7 +78,7 @@ const Nav = () => {
                 >
                   Sign in
                 </button>
-              ))}
+              ))} */}
             <Link href="/sign-up">
               <button type="button" className="ms-2 black_btn">
                 Sign Up
@@ -132,7 +132,7 @@ const Nav = () => {
           </div>
         ) : (
           <>
-            {providers &&
+            {/* {providers &&
               Object.values(providers).map((provider) => (
                 <button
                   type="button"
@@ -142,15 +142,15 @@ const Nav = () => {
                 >
                   Sign in
                 </button>
-              ))}
+              ))} */}
 
-            {/* <button
+            <button
               type="button"
               className="black_btn"
               onClick={signIn}
             >
               Sign in
-            </button> */}
+            </button>
 
             <Link href="/sign-up">
               <button type="button" className="ms-2 black_btn">
