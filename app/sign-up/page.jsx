@@ -26,7 +26,7 @@ const SignUp = () => {
       if (response.ok) {
         setSuccessMessage('Sign-up successful!');
         setTimeout(() => {
-          signIn;
+          router.push('/');
         }, 1500);
       }
     } catch (error) {

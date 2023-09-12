@@ -69,15 +69,9 @@ const handler = NextAuth({
       if (account.type === 'oauth') {
         try {
           await connectToDB();
-
-          // If user exists
-
           const userExists = await User.findOne({
             email: profile.email,
           });
-
-          // If not create a new user
-
           if (!userExists) {
             await User.create({
               email: profile.email,
@@ -112,7 +106,7 @@ const handler = NextAuth({
             return new Response('Invalid Password', { status: 401 });
           }
 
-          return new Response('Sign in Success', { status: 200 });
+          return true;
         } catch (error) {
           console.error(error);
           return new Response('Sign in Failed', { status: 500 });
