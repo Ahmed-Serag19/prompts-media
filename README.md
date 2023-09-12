@@ -16,3 +16,8 @@ In this project i learned about
 Server Side Rendering (SSR),
 Static Site Generation (SSG)
 Incremental Static Generation (ISR)
+=======
+
+# prompts-media
+
+A Shared prompts sort of social media to practice my nextjs 13 skills and fullstack
