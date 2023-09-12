@@ -61,11 +61,15 @@ const Nav = () => {
           </div>
         ) : (
           <>
-            <Link href="/sign-in">
-              <button type="button" className="black_btn">
-                Sign in
-              </button>
-            </Link>
+            {/* <Link href="/sign-in"> */}
+            <button
+              type="button"
+              className="black_btn"
+              onClick={signIn}
+            >
+              Sign in
+            </button>
+            {/* </Link> */}
             <Link href="/sign-up">
               <button type="button" className="ms-2 black_btn">
                 Sign Up
@@ -130,11 +134,15 @@ const Nav = () => {
                   Sign in
                 </button>
               ))} */}
-            <Link href="/sign-in">
-              <button type="button" className="black_btn">
-                Sign in
-              </button>
-            </Link>
+            {/* <Link href="/sign-in"> */}
+            <button
+              type="button"
+              className="black_btn"
+              onClick={signIn}
+            >
+              Sign in
+            </button>
+            {/* </Link> */}
             <Link href="/sign-up">
               <button type="button" className="ms-2 black_btn">
                 Sign Up
