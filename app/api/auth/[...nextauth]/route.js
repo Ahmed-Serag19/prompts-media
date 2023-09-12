@@ -66,7 +66,6 @@ const handler = NextAuth({
     },
 
     async signIn({ profile, user, account, email, credentials }) {
-      console.log(user, account.type);
       if (account.type === 'oauth') {
         try {
           await connectToDB();
