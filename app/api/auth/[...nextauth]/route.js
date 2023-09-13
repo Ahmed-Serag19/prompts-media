@@ -6,57 +6,15 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';
 
 const handler = NextAuth({
-  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
-    CredentialsProvider({
-      name: 'Credentials',
-      credentials: {
-        email: {
-          label: 'Email',
-          type: 'email',
-          placeholder: 'example@example.com',
-        },
-        password: { label: 'Password', type: 'password' },
-      },
-      async authorize(credentials) {
-        const { email, password } = credentials;
-
-        try {
-          await connectToDB();
-
-          const user = await User.findOne({ email });
-
-          if (!user) {
-            return new Response('User not found', { status: 401 });
-          }
-
-          const isPasswordValid = await bcrypt.compare(
-            password,
-            user.password
-          );
-
-          if (!isPasswordValid) {
-            return new Response('Invalid Password', { status: 401 });
-          }
-
-          return user;
-        } catch (error) {
-          console.error(error);
-          return new Response('Sign in Failed', { status: 500 });
-        }
-      },
-    }),
   ],
-  session: {
-    strategy: 'jwt',
-  },
-
   callbacks: {
     async session({ session }) {
+      // store the user id from MongoDB to session
       const sessionUser = await User.findOne({
         email: session.user.email,
       });
@@ -64,53 +22,28 @@ const handler = NextAuth({
 
       return session;
     },
+    async signIn({ account, profile, user, credentials }) {
+      try {
+        await connectToDB();
 
-    async signIn({ profile, user, account, email, credentials }) {
-      if (account.type === 'oauth') {
-        try {
-          await connectToDB();
-          const userExists = await User.findOne({
+        // check if user already exists
+        const userExists = await User.findOne({
+          email: profile.email,
+        });
+
+        // if not, create a new document and save user in MongoDB
+        if (!userExists) {
+          await User.create({
             email: profile.email,
+            username: profile.name.replace(' ', '').toLowerCase(),
+            image: profile.picture,
           });
-          if (!userExists) {
-            await User.create({
-              email: profile.email,
-              username: profile.name.replace(' ', '').toLowerCase(),
-              image: profile.picture,
-            });
-          }
-
-          return true;
-        } catch (error) {
-          console.log(error);
-          return false;
         }
-      } else if (account.type === 'credentials') {
-        const { email, password } = credentials;
 
-        try {
-          await connectToDB();
-
-          const user = await User.findOne({ email });
-
-          if (!user) {
-            return new Response('User not found', { status: 401 });
-          }
-
-          const isPasswordValid = await bcrypt.compare(
-            password,
-            user.password
-          );
-
-          if (!isPasswordValid) {
-            return new Response('Invalid Password', { status: 401 });
-          }
-
-          return true;
-        } catch (error) {
-          console.error(error);
-          return new Response('Sign in Failed', { status: 500 });
-        }
+        return true;
+      } catch (error) {
+        console.log('Error checking if user exists: ', error.message);
+        return false;
       }
     },
   },
